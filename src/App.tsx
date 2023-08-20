@@ -1,35 +1,43 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { createContext } from "react";
+import NewLogInput from "./component/NewLogInput";
+import RowFactory from "./component/LogFactory";
+import Menu from "./component/Menu";
+import LogService from "./service/logService";
+import { useEffect, useState } from "react";
+import Log from "./shared/interfaces/log.interface";
+import AuthModal from "./component/AuthModal";
+import UserInfo from "./shared/interfaces/userContext.interface";
+
+const AuthContext = createContext<UserInfo | null>(null);
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [logs, setLogs] = useState<Array<Log>>();
+  const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
+
+  useEffect(() => {
+    if (userInfo === null) return;
+    refreshLogs();
+  }, [userInfo]);
+
+  function refreshLogs() {
+    const userId = "1";
+    const localTimeOffset_KR = 1000 * 60 * 60 * 9;
+    const date = new Date(new Date().getTime() + localTimeOffset_KR)
+      .toISOString()
+      .slice(0, 10);
+    LogService.getLogs(userId, date).then((logs) => setLogs(logs.data));
+  }
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <AuthContext.Provider value={userInfo}>
+      <div className="p-4 bg-app-bg-color">
+        <Menu />
+        {userInfo !== null ? null : <AuthModal setUserInfo={setUserInfo} />}
+        <RowFactory logs={logs} />
+        <NewLogInput refreshLogs={refreshLogs} />
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    </AuthContext.Provider>
+  );
 }
 
-export default App
+export default App;
