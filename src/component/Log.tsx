@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { ILog } from "../shared/interfaces/logs.interface";
+import { ILog } from "../shared/interfaces/log.interface";
 
 function Row({ recordId, createdAt, content }: ILog) {
   const [date, setDate] = useState<Date>();

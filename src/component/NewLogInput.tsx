@@ -1,7 +1,11 @@
 import { ChangeEvent, FormEvent, useState } from "react";
 import LogService from "../service/logService";
 
-function NewLogInput({ refreshLogs }) {
+type NewLogInputProps = {
+  refreshLogs: () => void;
+};
+
+function NewLogInput({ refreshLogs }: NewLogInputProps) {
   const [content, setContent] = useState<string>("");
 
   function onInputChange({

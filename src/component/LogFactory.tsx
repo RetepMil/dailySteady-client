@@ -1,10 +1,14 @@
-import { ILog } from "../shared/interfaces/logs.interface";
+import Log from "../shared/interfaces/log.interface";
 import Row from "./Log";
 
-function RowFactory({ logs }) {
+type RowFactoryProps = {
+  logs: Array<Log> | undefined;
+};
+
+function RowFactory({ logs }: RowFactoryProps) {
   return (
     <>
-      {logs?.map((log: ILog) => {
+      {logs?.map((log: Log) => {
         const { createdAt, userId, content, recordId } = log;
         return (
           <Row
