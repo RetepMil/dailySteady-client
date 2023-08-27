@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Modal from "../Modal";
 import UserInfo from "../shared/interfaces/userContext.interface";
+import AuthService from "../service/authService";
 
 type AuthModalProps = {
   setUserInfo: (userInfo: UserInfo) => null;
@@ -13,8 +14,16 @@ function AuthModal({ setUserInfo }: AuthModalProps) {
   const toggleSignUpMode = () => setShowSignUp(!showSignUp);
 
   const onSubmit = (event: React.FormEvent) => {
-    console.log(event.target.email.value);
     event.preventDefault();
+    if (showSignUp) {
+      // 회원가입 Form인 경우
+      const { email, password, username } = event.target;
+      AuthService.signup(email, password, username);
+    } else {
+      //로그인 Form인 경우
+      const { email, password } = event.target;
+      AuthService.signup(email, password);
+    }
   };
 
   return (

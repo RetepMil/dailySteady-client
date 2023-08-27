@@ -12,4 +12,11 @@ export default class AuthService {
       password,
     });
   }
+
+  static async signin(email: string, password: string) {
+    return await this.axiosInstance.post(`/signin`, {
+      email,
+      password,
+    });
+  }
 }
