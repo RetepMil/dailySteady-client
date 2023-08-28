@@ -1,11 +1,13 @@
 import { PropsWithChildren } from "react";
 
 type BasicModalProps = {
+  preventClose: boolean;
   visible: boolean;
   setVisible: (isClose: boolean) => void;
 };
 
 function BasicModal({
+  preventClose = false,
   visible,
   setVisible,
   children,
@@ -13,7 +15,7 @@ function BasicModal({
   return visible ? (
     <div
       className="fixed left-0 top-0 h-screen w-full flex justify-center items-center bg-black bg-opacity-70 text-center"
-      onClick={() => setVisible(false)}
+      onClick={preventClose ? () => setVisible(false) : undefined}
     >
       <div
         onClick={(e) => e.stopPropagation()}

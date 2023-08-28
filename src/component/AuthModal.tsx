@@ -11,29 +11,40 @@ function AuthModal({ setUserInfo }: AuthModalProps) {
   const [visible, setVisible] = useState(true);
   const [showSignUp, setShowSignUp] = useState(false);
 
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState("");
+
   const toggleSignUpMode = () => setShowSignUp(!showSignUp);
 
-  const onSubmit = (event: React.FormEvent) => {
+  const onSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    if (showSignUp) {
-      // 회원가입 Form인 경우
-      const { email, password, username } = event.target;
-      AuthService.signup(email, password, username);
-    } else {
-      //로그인 Form인 경우
-      const { email, password } = event.target;
-      AuthService.signup(email, password);
+    try {
+      if (showSignUp) {
+        // 회원가입 Form인 경우
+        const response = await AuthService.signup(email, password, username);
+        console.log(response);
+      } else {
+        //로그인 Form인 경우
+        const response = await AuthService.signin(email, password);
+      }
+    } catch (err) {
+      console.error(err);
+    } finally {
+      console.log("COMPLETE");
     }
   };
 
   return (
-    <Modal visible={visible} setVisible={setVisible}>
+    <Modal preventClose={false} visible={visible} setVisible={setVisible}>
       <h1 className="text-lg font-bold mb-4">환영합니다!</h1>
       <form onSubmit={onSubmit} className="flex flex-row mb-2">
         <div className="w-3/4 pr-1">
           <input
             type="email"
             name="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             className="w-full pl-1 mb-1"
             placeholder="이메일"
           />
@@ -41,6 +52,8 @@ function AuthModal({ setUserInfo }: AuthModalProps) {
             type="password"
             name="password"
             autoComplete="on"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
             className={`w-full pl-1 ${showSignUp ? "mb-1" : ""}`}
             placeholder="비밀번호"
           />
@@ -48,6 +61,8 @@ function AuthModal({ setUserInfo }: AuthModalProps) {
             <input
               type="text"
               name="username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
               className="w-full pl-1"
               placeholder="닉네임"
             />
