@@ -1,18 +1,20 @@
-import axios from "axios";
 import moment from "moment";
+import axiosInstance from "./AxiosClient";
+import { HttpStatusCode } from "axios";
+import Log from "../shared/interfaces/log.interface";
 
 export default class LogService {
-  static axiosInstance = axios.create({
-    baseURL: import.meta.env.VITE_SERVER_URL,
-  });
-
-  static async getLogs(email: string, date: string) {
-    return await this.axiosInstance.get(`/record?userId=${email}&date=${date}`);
+  // prettier-ignore
+  static async getLogs(email: string, date: string): Promise<Array<Log>> {
+    const response = await axiosInstance.get(`/record?email=${email}&date=${date}`);
+    const { data: { code, data }} = response
+    if (code !== HttpStatusCode.Ok) throw new Error("서버 통신 실패")
+    return data;
   }
 
   static async saveLog(userId: string, content: string) {
     const time = moment().format("YYYY-MM-DDTHH:mm:ss");
-    return await this.axiosInstance.post("/record", {
+    return await axiosInstance.post("/record", {
       userId,
       time,
       content,

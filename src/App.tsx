@@ -1,12 +1,12 @@
-import { createContext } from "react";
+import { createContext, useEffect, useState } from "react";
 import NewLogInput from "./component/NewLogInput";
 import RowFactory from "./component/LogFactory";
 import Menu from "./component/Menu";
 import LogService from "./service/logService";
-import { useEffect, useState } from "react";
 import Log from "./shared/interfaces/log.interface";
 import AuthModal from "./component/AuthModal";
 import UserInfo from "./shared/interfaces/User.interfaces";
+import { AxiosResponse } from "axios";
 
 const AuthContext = createContext<UserInfo | null>(null);
 
@@ -18,13 +18,15 @@ function App() {
     if (userInfo !== null) refreshLogs();
   }, [userInfo]);
 
-  function refreshLogs() {
+  async function refreshLogs() {
     const { email } = userInfo!;
     const localTimeOffset_KR = 1000 * 60 * 60 * 9;
     const date = new Date(new Date().getTime() + localTimeOffset_KR)
       .toISOString()
       .slice(0, 10);
-    LogService.getLogs(email, date).then((logs) => setLogs(logs.data));
+    const logs = await LogService.getLogs(email, date);
+    console.log(logs);
+    setLogs(logs);
   }
 
   return (
