@@ -5,3 +5,8 @@ export default interface UserInfo {
   name: string;
   logs: Array<Log> | null;
 }
+
+export interface UserLoginResponse {
+  email: string;
+  name: string;
+}

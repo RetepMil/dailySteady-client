@@ -6,7 +6,7 @@ import LogService from "./service/logService";
 import { useEffect, useState } from "react";
 import Log from "./shared/interfaces/log.interface";
 import AuthModal from "./component/AuthModal";
-import UserInfo from "./shared/interfaces/userContext.interface";
+import UserInfo from "./shared/interfaces/User.interfaces";
 
 const AuthContext = createContext<UserInfo | null>(null);
 
@@ -15,17 +15,16 @@ function App() {
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
 
   useEffect(() => {
-    if (userInfo === null) return;
-    refreshLogs();
+    if (userInfo !== null) refreshLogs();
   }, [userInfo]);
 
   function refreshLogs() {
-    const userId = "1";
+    const { email } = userInfo!;
     const localTimeOffset_KR = 1000 * 60 * 60 * 9;
     const date = new Date(new Date().getTime() + localTimeOffset_KR)
       .toISOString()
       .slice(0, 10);
-    LogService.getLogs(userId, date).then((logs) => setLogs(logs.data));
+    LogService.getLogs(email, date).then((logs) => setLogs(logs.data));
   }
 
   return (

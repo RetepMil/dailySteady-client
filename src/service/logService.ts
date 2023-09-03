@@ -6,10 +6,8 @@ export default class LogService {
     baseURL: import.meta.env.VITE_SERVER_URL,
   });
 
-  static async getLogs(userId: string, date: string) {
-    return await this.axiosInstance.get(
-      `/record?userId=${userId}&date=${date}`
-    );
+  static async getLogs(email: string, date: string) {
+    return await this.axiosInstance.get(`/record?userId=${email}&date=${date}`);
   }
 
   static async saveLog(userId: string, content: string) {

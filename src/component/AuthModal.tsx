@@ -1,37 +1,47 @@
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import Modal from "../Modal";
-import UserInfo from "../shared/interfaces/userContext.interface";
+import UserInfo from "../shared/interfaces/User.interfaces";
 import AuthService from "../service/authService";
 
 type AuthModalProps = {
-  setUserInfo: (userInfo: UserInfo) => null;
+  setUserInfo: Dispatch<SetStateAction<UserInfo | null>>;
 };
 
 function AuthModal({ setUserInfo }: AuthModalProps) {
   const [visible, setVisible] = useState(true);
   const [showSignUp, setShowSignUp] = useState(false);
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [username, setUsername] = useState("");
+  const [emailVal, setEmailVal] = useState("");
+  const [passwordVal, setPasswordVal] = useState("");
+  const [usernameVal, setUsernameVal] = useState("");
 
   const toggleSignUpMode = () => setShowSignUp(!showSignUp);
+
+  const initInput = () => {
+    setEmailVal("");
+    setPasswordVal("");
+    setUsernameVal("");
+  };
 
   const onSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     try {
       if (showSignUp) {
-        // 회원가입 Form인 경우
-        const response = await AuthService.signup(email, password, username);
-        console.log(response);
+        await AuthService.signup(emailVal, passwordVal, usernameVal);
+        initInput();
+        alert("회원가입 성공!");
       } else {
-        //로그인 Form인 경우
-        const response = await AuthService.signin(email, password);
+        const { email, name } = await AuthService.signin(emailVal, passwordVal);
+        initInput();
+        setUserInfo({
+          email,
+          name,
+          logs: null,
+        });
+        setVisible(false);
       }
     } catch (err) {
       console.error(err);
-    } finally {
-      console.log("COMPLETE");
     }
   };
 
@@ -43,8 +53,8 @@ function AuthModal({ setUserInfo }: AuthModalProps) {
           <input
             type="email"
             name="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            value={emailVal}
+            onChange={(e) => setEmailVal(e.target.value)}
             className="w-full pl-1 mb-1"
             placeholder="이메일"
           />
@@ -52,8 +62,8 @@ function AuthModal({ setUserInfo }: AuthModalProps) {
             type="password"
             name="password"
             autoComplete="on"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            value={passwordVal}
+            onChange={(e) => setPasswordVal(e.target.value)}
             className={`w-full pl-1 ${showSignUp ? "mb-1" : ""}`}
             placeholder="비밀번호"
           />
@@ -61,8 +71,8 @@ function AuthModal({ setUserInfo }: AuthModalProps) {
             <input
               type="text"
               name="username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              value={usernameVal}
+              onChange={(e) => setUsernameVal(e.target.value)}
               className="w-full pl-1"
               placeholder="닉네임"
             />

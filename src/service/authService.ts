@@ -1,29 +1,38 @@
-import axios from "axios";
-import { json } from "stream/consumers";
+import { HttpStatusCode } from "axios";
+import { UserLoginResponse } from "../shared/interfaces/User.interfaces";
+import axiosInstance from "./AxiosClient";
 
 export default class AuthService {
-  static axiosInstance = axios.create({
-    baseURL: import.meta.env.VITE_SERVER_URL,
-    headers: {
-      "Content-Type": "application/json",
-      "Content-Encoding": "UTF-8",
-    },
-  });
-
   static async signup(email: string, password: string, username: string) {
     const data = JSON.stringify({
       email,
       username,
       password,
     });
-    return this.axiosInstance.post(`/signup`, data);
+    const response = await axiosInstance.post(`/signup`, data);
+    if (!response) throw new Error("서버와의 통신에서 에러가 발생했습니다");
+    const {
+      data: { code },
+    } = response;
+    if (code != HttpStatusCode.Created) throw new Error("회원가입 실패");
   }
 
-  static async signin(email: string, password: string) {
-    const data = JSON.stringify({
+  // prettier-ignore
+  static async signin(email: string, password: string): Promise<UserLoginResponse> {
+    const body = JSON.stringify({
       email,
       password,
     });
-    return this.axiosInstance.post(`/signin`, data);
+
+    const response = await axiosInstance.post(`/signin`, body);
+    if (!response) {
+      throw new Error("알 수 없는 에러가 발생했습니다")
+    }
+
+    const { data: { name, grantType, accessToken } } = response;
+    axiosInstance.defaults.headers.common["Authorization"] = `${grantType} ${accessToken}`;
+    
+    const userInfo: UserLoginResponse = { email, name };
+    return userInfo;
   }
 }
