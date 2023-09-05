@@ -1,4 +1,4 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useCallback, useEffect, useState } from "react";
 import AuthModal from "./component/AuthModal";
 import RowFactory from "./component/LogFactory";
 import Menu from "./component/Menu";
@@ -13,11 +13,9 @@ function App() {
   const [logs, setLogs] = useState<Array<Log>>();
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
 
-  useEffect(() => {
-    if (userInfo !== null) refreshLogs();
-  }, [userInfo]);
+  const refreshLogs = useCallback(async () => {
+    if (userInfo === null) return;
 
-  async function refreshLogs() {
     const { email } = userInfo!;
     if (email === null) return;
 
@@ -27,7 +25,12 @@ function App() {
       .slice(0, 10);
     const logs = await LogService.getLogs(email, date);
     setLogs(logs);
-  }
+  }, [userInfo]);
+
+  useEffect(() => {
+    if (localStorage.getItem("accessToken") !== null) refreshLogs();
+    if (userInfo !== null) refreshLogs();
+  }, [userInfo, refreshLogs]);
 
   return (
     <AuthContext.Provider value={userInfo}>
@@ -36,7 +39,9 @@ function App() {
         <RowFactory logs={logs} />
       </div>
       {userInfo !== null ? undefined : <AuthModal setUserInfo={setUserInfo} />}
-      <NewLogInput refreshLogs={refreshLogs} />
+      {userInfo === null ? undefined : (
+        <NewLogInput refreshLogs={refreshLogs} />
+      )}
     </AuthContext.Provider>
   );
 }

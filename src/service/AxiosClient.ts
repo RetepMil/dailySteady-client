@@ -5,6 +5,7 @@ class AxiosClient {
 
   private constructor() {}
 
+  // prettier-ignore
   public static getInstance(): AxiosInstance {
     if (!AxiosClient.instance) {
       AxiosClient.instance = axios.create({
@@ -15,6 +16,12 @@ class AxiosClient {
         },
       });
     }
+    
+    const accessToken = localStorage.getItem("accessToken") !== null
+    if (accessToken !== undefined && accessToken !== null) {
+      AxiosClient.instance.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+    }
+
     return AxiosClient.instance;
   }
 }

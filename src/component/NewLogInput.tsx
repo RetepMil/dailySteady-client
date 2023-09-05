@@ -29,7 +29,7 @@ function NewLogInput({ refreshLogs }: NewLogInputProps) {
   }
 
   return (
-    <div className="fixed bottom-0 w-full h-24 p-4 backdrop-blur-sm bg-app-bg-color/50 focus:bg-app-bg-color">
+    <div className="fixed bottom-0 w-full h-20 p-4 backdrop-blur-sm bg-app-bg-color/50 focus:bg-app-bg-color">
       <div className="w-full p-2 h-12 rounded-md bg-log-bg-color flex">
         <div className="h-full w-1/8 text-menu-theme-color inline-flex items-center pl-2 pr-2 border-r-menu-theme-color border-r-2">
           <span>+</span>
