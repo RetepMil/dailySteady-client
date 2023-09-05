@@ -7,20 +7,23 @@ type RowFactoryProps = {
 
 function RowFactory({ logs }: RowFactoryProps) {
   return (
-    <>
-      {logs?.map((log: Log) => {
-        const { createdAt, userId, content, recordId } = log;
-        return (
-          <Row
-            key={recordId}
-            recordId={recordId}
-            userId={userId}
-            createdAt={createdAt}
-            content={content}
-          />
-        );
-      })}
-    </>
+    <div className="p-4">
+      {logs?.length !== 0
+        ? logs?.map((log: Log) => {
+            const { createdAt, userId, content, recordId } = log;
+            return (
+              <Row
+                key={recordId}
+                recordId={recordId}
+                userId={userId}
+                createdAt={createdAt}
+                content={content}
+              />
+            );
+          })
+        : undefined}
+      <div className="h-24 w-full bg-color-white"></div>
+    </div>
   );
 }
 

@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
-import { ILog } from "../shared/interfaces/log.interface";
+import Log from "../shared/interfaces/log.interface";
 
-function Row({ recordId, createdAt, content }: ILog) {
+function Row({ recordId, createdAt, content }: Log) {
   const [date, setDate] = useState<Date>();
 
   useEffect(() => {
-    setDate(new Date(createdAt.replace("T", " ")));
+    setDate(new Date(createdAt?.replace("T", " ")));
   }, [createdAt]);
 
   return (

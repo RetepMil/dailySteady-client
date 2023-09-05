@@ -1,14 +1,13 @@
 import { createContext, useEffect, useState } from "react";
-import NewLogInput from "./component/NewLogInput";
+import AuthModal from "./component/AuthModal";
 import RowFactory from "./component/LogFactory";
 import Menu from "./component/Menu";
+import NewLogInput from "./component/NewLogInput";
 import LogService from "./service/logService";
-import Log from "./shared/interfaces/log.interface";
-import AuthModal from "./component/AuthModal";
 import UserInfo from "./shared/interfaces/User.interfaces";
-import { AxiosResponse } from "axios";
+import Log from "./shared/interfaces/log.interface";
 
-const AuthContext = createContext<UserInfo | null>(null);
+export const AuthContext = createContext<UserInfo | null>(null);
 
 function App() {
   const [logs, setLogs] = useState<Array<Log>>();
@@ -20,23 +19,24 @@ function App() {
 
   async function refreshLogs() {
     const { email } = userInfo!;
+    if (email === null) return;
+
     const localTimeOffset_KR = 1000 * 60 * 60 * 9;
     const date = new Date(new Date().getTime() + localTimeOffset_KR)
       .toISOString()
       .slice(0, 10);
     const logs = await LogService.getLogs(email, date);
-    console.log(logs);
     setLogs(logs);
   }
 
   return (
     <AuthContext.Provider value={userInfo}>
-      <div className="p-4 bg-app-bg-color">
+      <div className="bg-app-bg-color flex flex-col">
         <Menu />
-        {userInfo !== null ? null : <AuthModal setUserInfo={setUserInfo} />}
         <RowFactory logs={logs} />
-        <NewLogInput refreshLogs={refreshLogs} />
       </div>
+      {userInfo !== null ? undefined : <AuthModal setUserInfo={setUserInfo} />}
+      <NewLogInput refreshLogs={refreshLogs} />
     </AuthContext.Provider>
   );
 }

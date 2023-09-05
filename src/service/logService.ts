@@ -1,7 +1,7 @@
-import moment from "moment";
-import axiosInstance from "./AxiosClient";
 import { HttpStatusCode } from "axios";
+import moment from "moment";
 import Log from "../shared/interfaces/log.interface";
+import axiosInstance from "./AxiosClient";
 
 export default class LogService {
   // prettier-ignore
@@ -12,10 +12,10 @@ export default class LogService {
     return data;
   }
 
-  static async saveLog(userId: string, content: string) {
+  static async saveLog(email: string, content: string) {
     const time = moment().format("YYYY-MM-DDTHH:mm:ss");
     return await axiosInstance.post("/record", {
-      userId,
+      email,
       time,
       content,
     });

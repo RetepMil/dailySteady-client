@@ -3,7 +3,7 @@ import { ReactComponent as UserIcon } from "../static/icon/UserIcon.svg";
 
 function Menu() {
   return (
-    <div className="flex justify-between mb-4">
+    <div className="flex justify-between mb-4 p-4">
       <MenuIcon className="w-8 h-8" />
       <span className="text-menu-theme-color text-xl subpixel-antialiased">
         <strong>Daily, Steady</strong>
