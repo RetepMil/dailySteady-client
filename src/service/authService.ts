@@ -33,7 +33,6 @@ export default class AuthService {
     const { data: { data: { name, tokenInfo } } } = response;
     const { accessToken, grantType } = tokenInfo;
 
-    localStorage.setItem("accessToken", accessToken);
     axiosInstance.defaults.headers.common["Authorization"] = `${grantType} ${accessToken}`;
     
     const userInfo: UserLoginResponse = { email, name };

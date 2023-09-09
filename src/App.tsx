@@ -17,7 +17,7 @@ function App() {
     if (userInfo === null) return;
 
     const { email } = userInfo!;
-    if (email === null) return;
+    if (email === undefined || email === null) return;
 
     const localTimeOffset_KR = 1000 * 60 * 60 * 9;
     const date = new Date(new Date().getTime() + localTimeOffset_KR)
@@ -27,10 +27,14 @@ function App() {
     setLogs(logs);
   }, [userInfo]);
 
+  const attemptTokenLogin = useCallback(async () => {
+    console.log(document.cookie);
+  }, [userInfo]);
+
   useEffect(() => {
-    if (localStorage.getItem("accessToken") !== null) refreshLogs();
+    attemptTokenLogin();
     if (userInfo !== null) refreshLogs();
-  }, [userInfo, refreshLogs]);
+  }, [userInfo, refreshLogs, attemptTokenLogin]);
 
   return (
     <AuthContext.Provider value={userInfo}>

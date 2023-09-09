@@ -1,7 +1,8 @@
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction, useContext, useState } from "react";
 import Modal from "../Modal";
 import UserInfo from "../shared/interfaces/User.interfaces";
 import AuthService from "../service/authService";
+import { AuthContext } from "../App";
 
 type AuthModalProps = {
   setUserInfo: Dispatch<SetStateAction<UserInfo | null>>;
@@ -14,6 +15,8 @@ function AuthModal({ setUserInfo }: AuthModalProps) {
   const [emailVal, setEmailVal] = useState("");
   const [passwordVal, setPasswordVal] = useState("");
   const [usernameVal, setUsernameVal] = useState("");
+
+  const userInfo = useContext(AuthContext);
 
   const toggleSignUpMode = () => setShowSignUp(!showSignUp);
 
@@ -29,15 +32,17 @@ function AuthModal({ setUserInfo }: AuthModalProps) {
       if (showSignUp) {
         await AuthService.signup(emailVal, passwordVal, usernameVal);
         initInput();
+        toggleSignUpMode();
         alert("회원가입 성공!");
       } else {
         const { email, name } = await AuthService.signin(emailVal, passwordVal);
-        initInput();
         setUserInfo({
           email,
           name,
           logs: null,
         });
+        localStorage.setItem("userInfo", JSON.stringify(userInfo));
+        initInput();
         setVisible(false);
       }
     } catch (err) {
