@@ -29,6 +29,7 @@ function App() {
 
   const attemptTokenLogin = useCallback(async () => {
     console.log(document.cookie);
+    console.log(userInfo);
   }, [userInfo]);
 
   useEffect(() => {

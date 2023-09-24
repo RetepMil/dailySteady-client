@@ -8,8 +8,20 @@ class AxiosClient {
   // prettier-ignore
   public static getInstance(): AxiosInstance {
     if (!AxiosClient.instance) {
+      let url;
+      switch (process.env.NODE_ENV) {
+        case "LOCAL":
+          url = import.meta.env.VITE_SERVER_URL_LOCAL;
+          break;
+        case "DEV":
+          url = import.meta.env.VITE_SERVER_URL_DEV;
+          break;
+        case "PROD":
+          url = import.meta.env.VITE_SERVER_URL_PROD;
+          break;
+      }
       AxiosClient.instance = axios.create({
-        baseURL: import.meta.env.VITE_SERVER_URL,
+        baseURL: url,
         withCredentials: true,
         headers: {
           "Content-Type": "application/json",
@@ -17,7 +29,6 @@ class AxiosClient {
         },
       });
     }
-
     return AxiosClient.instance;
   }
 }
