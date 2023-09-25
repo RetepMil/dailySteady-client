@@ -6,6 +6,7 @@ import NewLogInput from "./component/NewLogInput";
 import LogService from "./service/logService";
 import UserInfo from "./shared/interfaces/User.interfaces";
 import Log from "./shared/interfaces/log.interface";
+import AuthService from "./service/authService";
 
 export const AuthContext = createContext<UserInfo | null>(null);
 
@@ -27,15 +28,10 @@ function App() {
     setLogs(logs);
   }, [userInfo]);
 
-  const attemptTokenLogin = useCallback(async () => {
-    console.log(document.cookie);
-    console.log(userInfo);
-  }, [userInfo]);
-
   useEffect(() => {
-    attemptTokenLogin();
+    AuthService.tokenSignin();
     if (userInfo !== null) refreshLogs();
-  }, [userInfo, refreshLogs, attemptTokenLogin]);
+  }, [userInfo, refreshLogs]);
 
   return (
     <AuthContext.Provider value={userInfo}>
