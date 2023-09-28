@@ -6,6 +6,7 @@ function Row({ recordId, createdAt, content }: Log) {
 
   useEffect(() => {
     setDate(new Date(createdAt?.replace("T", " ")));
+    console.log(createdAt);
   }, [createdAt]);
 
   return (

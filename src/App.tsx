@@ -3,10 +3,11 @@ import AuthModal from "./component/AuthModal";
 import RowFactory from "./component/LogFactory";
 import Menu from "./component/Menu";
 import NewLogInput from "./component/NewLogInput";
-import LogService from "./service/logService";
 import UserInfo from "./shared/interfaces/User.interfaces";
 import Log from "./shared/interfaces/log.interface";
+import LogService from "./service/logService";
 import AuthService from "./service/authService";
+import DateUtils from "./service/DateUtils";
 
 export const AuthContext = createContext<UserInfo | null>(null);
 
@@ -14,30 +15,29 @@ function App() {
   const [logs, setLogs] = useState<Array<Log>>();
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
 
-  const refreshLogs = useCallback(async () => {
-    if (userInfo === null) return;
+  const refreshLogs = useCallback(
+    async (date: string) => {
+      if (userInfo === null) return;
 
-    const { email } = userInfo!;
-    if (email === undefined || email === null) return;
+      const { email } = userInfo!;
+      if (email === null) return;
 
-    const localTimeOffset_KR = 1000 * 60 * 60 * 9;
-    const date = new Date(new Date().getTime() + localTimeOffset_KR)
-      .toISOString()
-      .slice(0, 10);
-    const logs = await LogService.getLogs(email, date);
-    setLogs(logs);
-  }, [userInfo]);
+      const logs = await LogService.getLogs(email, date);
+      setLogs(logs);
+    },
+    [userInfo]
+  );
 
   useEffect(() => {
-    AuthService.tokenSignin();
-    if (userInfo !== null) refreshLogs();
+    if (userInfo !== null) refreshLogs(DateUtils.getTodayDate());
+    else AuthService.tokenSignin();
   }, [userInfo, refreshLogs]);
 
   return (
     <AuthContext.Provider value={userInfo}>
       <div className="bg-app-bg-color flex flex-col">
         <Menu />
-        <RowFactory logs={logs} />
+        <RowFactory logs={logs} refreshLogs={refreshLogs} />
       </div>
       {userInfo !== null ? undefined : <AuthModal setUserInfo={setUserInfo} />}
       {userInfo === null ? undefined : (

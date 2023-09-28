@@ -1,9 +1,10 @@
 import { ChangeEvent, FormEvent, useContext, useState } from "react";
 import { AuthContext } from "../App";
 import LogService from "../service/logService";
+import UtilService from "../service/DateUtils";
 
 type NewLogInputProps = {
-  refreshLogs: () => void;
+  refreshLogs: (date: string) => void;
 };
 
 function NewLogInput({ refreshLogs }: NewLogInputProps) {
@@ -24,7 +25,7 @@ function NewLogInput({ refreshLogs }: NewLogInputProps) {
     if (email === null) return;
 
     await LogService.saveLog(email, content);
-    refreshLogs();
+    refreshLogs(UtilService.getTodayDate());
     setContent("");
   }
 
