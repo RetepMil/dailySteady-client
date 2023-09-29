@@ -1,3 +1,4 @@
+import { AsyncLocalStorage } from "async_hooks";
 import axios, { AxiosInstance } from "axios";
 
 class AxiosClient {
@@ -20,6 +21,7 @@ class AxiosClient {
           url = import.meta.env.VITE_SERVER_URL_PROD;
           break;
       }
+      
       AxiosClient.instance = axios.create({
         baseURL: url,
         withCredentials: true,

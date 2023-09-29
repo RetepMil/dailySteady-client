@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction, useContext, useState } from "react";
 import Modal from "../Modal";
 import UserInfo from "../shared/interfaces/User.interfaces";
-import AuthService from "../service/authService";
+import AuthService from "../service/AuthService";
 import { AuthContext } from "../App";
 
 type AuthModalProps = {
