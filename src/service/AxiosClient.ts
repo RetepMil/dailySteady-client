@@ -1,3 +1,4 @@
+import { AsyncLocalStorage } from "async_hooks";
 import axios, { AxiosInstance } from "axios";
 
 class AxiosClient {
@@ -28,12 +29,6 @@ class AxiosClient {
           "Content-Type": "application/json",
           "Content-Encoding": "UTF-8",
         },
-      });
-      
-      document.cookie.split("; ").forEach((cookieString) => {
-        const [key, value] = cookieString.split("=");
-        if (key === "x-access-token")
-          AxiosClient.instance.defaults.headers.common["Authorization"] = `Bearer ${value}`;
       });
     }
     return AxiosClient.instance;

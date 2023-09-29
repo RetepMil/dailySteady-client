@@ -23,6 +23,7 @@ function NewLogInput({ refreshLogs }: NewLogInputProps) {
 
     const { email } = userInfo;
     if (email === null) return;
+    console.log(userInfo);
 
     await LogService.saveLog(email, content);
     refreshLogs(UtilService.getTodayDate());

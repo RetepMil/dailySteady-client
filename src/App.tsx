@@ -6,7 +6,7 @@ import NewLogInput from "./component/NewLogInput";
 import UserInfo from "./shared/interfaces/User.interfaces";
 import Log from "./shared/interfaces/log.interface";
 import LogService from "./service/logService";
-import AuthService from "./service/authService";
+import AuthService from "./service/AuthService";
 import DateUtils from "./service/DateUtils";
 
 export const AuthContext = createContext<UserInfo | null>(null);
@@ -30,7 +30,7 @@ function App() {
 
   useEffect(() => {
     if (userInfo !== null) refreshLogs(DateUtils.getTodayDate());
-    else AuthService.tokenSignin();
+    else AuthService.signin("", null).then(setUserInfo);
   }, [userInfo, refreshLogs]);
 
   return (
