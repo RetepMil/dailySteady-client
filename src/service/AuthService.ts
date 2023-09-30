@@ -1,7 +1,6 @@
 import { HttpStatusCode } from "axios";
 import { UserLoginResponse } from "../shared/interfaces/User.interfaces";
 import axiosInstance from "./AxiosClient";
-import { AsyncLocalStorage } from "async_hooks";
 
 // prettier-ignore
 export default class AuthService {

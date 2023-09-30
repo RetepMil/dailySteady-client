@@ -22,7 +22,7 @@ function NewLogInput({ refreshLogs }: NewLogInputProps) {
     if (userInfo === undefined || userInfo === null) return;
 
     const { email } = userInfo;
-    if (email === null) return;
+    if (email === null || email === "") return;
     console.log(userInfo);
 
     await LogService.saveLog(email, content);
