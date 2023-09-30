@@ -15,7 +15,7 @@ export default class UtilService {
   static dateOffsetByDay(date: string, offset: number) {
     const newDate = new Date(date);
     newDate.setDate(newDate.getDate() + offset);
-    return newDate;
+    return this.StringifyDatetime(newDate);
   }
 
   static getTodayDate() {

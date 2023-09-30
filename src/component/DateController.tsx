@@ -1,4 +1,5 @@
 import { Dispatch, SetStateAction } from "react";
+import DateUtils from "../service/DateUtils";
 
 type DateControllerProps = {
   date: string;
@@ -12,11 +13,17 @@ export default function DateController({
   refreshLogs,
 }: DateControllerProps) {
   const moveToPreviousDay = () => {
-    console.log("PREV");
+    const prevDate = DateUtils.dateOffsetByDay(date, -1);
+    setDate(prevDate);
+    refreshLogs(prevDate);
   };
+
   const moveToNextDay = () => {
-    console.log("NEXT");
+    const nextDate = DateUtils.dateOffsetByDay(date, 1);
+    setDate(nextDate);
+    refreshLogs(nextDate);
   };
+
   return (
     <div className="flex flex-row justify-center align-middle text-menu-theme-color">
       <div className="w-1/5 flex flex-row justify-around align-middle font-black">
@@ -24,7 +31,12 @@ export default function DateController({
           {"<"}
         </button>
         <span>{date}</span>
-        <button className="cursor-pointer" onClick={moveToNextDay}>
+        <button
+          className={`cursor-pointer ${
+            date === DateUtils.getTodayDate() ? "text-app-bg-color" : ""
+          }`}
+          onClick={date !== DateUtils.getTodayDate() ? moveToNextDay : null}
+        >
           {">"}
         </button>
       </div>

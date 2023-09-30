@@ -1,6 +1,6 @@
 import { ChangeEvent, FormEvent, useContext, useState } from "react";
 import { AuthContext } from "../App";
-import LogService from "../service/logService";
+import LogService from "../service/LogService";
 import UtilService from "../service/DateUtils";
 
 type NewLogInputProps = {
@@ -22,7 +22,7 @@ function NewLogInput({ refreshLogs }: NewLogInputProps) {
     if (userInfo === undefined || userInfo === null) return;
 
     const { email } = userInfo;
-    if (email === null) return;
+    if (email === null || email === "") return;
     console.log(userInfo);
 
     await LogService.saveLog(email, content);

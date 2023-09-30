@@ -1,7 +1,6 @@
 import { HttpStatusCode } from "axios";
 import { UserLoginResponse } from "../shared/interfaces/User.interfaces";
 import axiosInstance from "./AxiosClient";
-import { AsyncLocalStorage } from "async_hooks";
 
 // prettier-ignore
 export default class AuthService {
@@ -17,9 +16,9 @@ export default class AuthService {
     if (code != HttpStatusCode.Created) throw new Error("회원가입 실패");
   }
 
-  static async signin(email: string, password: string | null) {
+  static async signin(_email: string, password: string | null) {
     const body = JSON.stringify({
-      email,
+      email: _email,
       password,
     });
 
@@ -31,7 +30,7 @@ export default class AuthService {
     const { data: { code } } = response;
     if (code != HttpStatusCode.Ok) throw new Error("로그인이 실패했습니다");
 
-    const { data: { data: { name, tokenInfo } } } = response;
+    const { data: { data: { email, name, tokenInfo } } } = response;
     const { grantType, accessToken,  } = tokenInfo;
 
     axiosInstance.defaults.headers.common["Authorization"] = `${grantType} ${accessToken}`;
