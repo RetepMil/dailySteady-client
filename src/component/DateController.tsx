@@ -25,7 +25,7 @@ export default function DateController({
   };
 
   return (
-    <div className="flex flex-row justify-center align-middle text-menu-theme-color">
+    <div className="h-6 flex flex-row justify-center align-middle text-menu-theme-color">
       <div className="w-1/5 flex flex-row justify-around align-middle font-black">
         <button className="cursor-pointer" onClick={moveToPreviousDay}>
           {"<"}
