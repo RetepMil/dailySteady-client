@@ -1,6 +1,6 @@
 import { ChangeEvent, FormEvent, useContext, useState } from "react";
 import { AuthContext } from "../App";
-import LogService from "../service/logService";
+import LogService from "../service/LogService";
 import UtilService from "../service/DateUtils";
 
 type NewLogInputProps = {

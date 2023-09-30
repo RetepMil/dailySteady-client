@@ -5,7 +5,7 @@ import Menu from "./component/Menu";
 import NewLogInput from "./component/NewLogInput";
 import UserInfo from "./shared/interfaces/User.interfaces";
 import Log from "./shared/interfaces/log.interface";
-import LogService from "./service/logService";
+import LogService from "./service/LogService";
 import AuthService from "./service/AuthService";
 import DateUtils from "./service/DateUtils";
 
