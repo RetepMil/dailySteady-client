@@ -12,6 +12,11 @@ export default function DateController({
   setDate,
   refreshLogs,
 }: DateControllerProps) {
+  const buttonTextStyle = {
+    display: "inline-flex",
+    "align-items": "center",
+  };
+
   const moveToPreviousDay = () => {
     const prevDate = DateUtils.dateOffsetByDay(date, -1);
     setDate(prevDate);
@@ -25,17 +30,24 @@ export default function DateController({
   };
 
   return (
-    <div className="h-6 flex flex-row justify-center align-middle text-menu-theme-color">
-      <div className="w-1/5 flex flex-row justify-around align-middle font-black">
-        <button className="cursor-pointer" onClick={moveToPreviousDay}>
+    <div className="h-8 flex flex-row justify-center align-middle text-menu-theme-color">
+      <div className="w-1/5 flex flex-row justify-around align-middle font-black text-xl">
+        <button
+          className="cursor-pointer"
+          onClick={moveToPreviousDay}
+          style={buttonTextStyle}
+        >
           {"<"}
         </button>
-        <span>{date}</span>
+        <span className="text-base" style={buttonTextStyle}>
+          {date}
+        </span>
         <button
           className={`cursor-pointer ${
             date === DateUtils.getTodayDate() ? "text-app-bg-color" : ""
           }`}
           onClick={date !== DateUtils.getTodayDate() ? moveToNextDay : null}
+          style={buttonTextStyle}
         >
           {">"}
         </button>

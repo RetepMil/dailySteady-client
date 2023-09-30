@@ -36,14 +36,20 @@ function NewLogInput({ refreshLogs }: NewLogInputProps) {
         <div className="h-full w-1/8 text-menu-theme-color inline-flex items-center pl-2 pr-2 border-r-menu-theme-color border-r-2">
           <span>+</span>
         </div>
-        <div className="h-full w-7/8 inline-flex items-center pl-2 pr-2">
-          <form onSubmit={onSubmit}>
+        <div
+          className="h-full inline-flex items-center pl-2 pr-2"
+          style={{ width: "inherit" }}
+        >
+          <form
+            onSubmit={onSubmit}
+            className="h-full w-full flex align-middle justify-center"
+          >
             <input
               onChange={onInputChange}
               type="text"
               value={content}
               placeholder="로그 추가"
-              className="bg-log-bg-color w-full placeholder-menu-theme-color text-slate-50 focus:placeholder-transparent"
+              className="bg-log-bg-color w-full placeholder-menu-theme-color text-slate-50 focus:placeholder-transparent focus:outline-none"
             />
             <button type="submit" />
           </form>
