@@ -39,7 +39,6 @@ function AuthModal({ setUserInfo }: AuthModalProps) {
         setUserInfo({
           email,
           name,
-          logs: null,
         });
         localStorage.setItem("userInfo", JSON.stringify(userInfo));
         initInput();

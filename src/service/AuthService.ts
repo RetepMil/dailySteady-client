@@ -43,5 +43,7 @@ export default class AuthService {
 
   static async renewToken() {
     const response = await axiosInstance.post(`/member/authentication`);
+    console.log(response);
+    
   }
 }

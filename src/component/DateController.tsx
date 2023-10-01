@@ -46,7 +46,7 @@ export default function DateController({
           className={`cursor-pointer ${
             date === DateUtils.getTodayDate() ? "text-app-bg-color" : ""
           }`}
-          onClick={date !== DateUtils.getTodayDate() ? moveToNextDay : null}
+          onClick={date !== DateUtils.getTodayDate() ? moveToNextDay : undefined}
           style={buttonTextStyle}
         >
           {">"}
