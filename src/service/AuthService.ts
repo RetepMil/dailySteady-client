@@ -36,14 +36,11 @@ export default class AuthService {
     axiosInstance.defaults.headers.common["Authorization"] = `${grantType} ${accessToken}`;
     
     const userInfo: UserLoginResponse = { email, name };
-    console.log(userInfo);
-    
     return userInfo;
   }
 
   static async renewToken() {
     const response = await axiosInstance.post(`/member/authentication`);
     console.log(response);
-    
   }
 }
