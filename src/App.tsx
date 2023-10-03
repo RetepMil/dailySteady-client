@@ -20,17 +20,27 @@ function App() {
       if (userInfo === null) return;
 
       const { email } = userInfo!;
-      if (email === null) return;
+      if (email === null || email === "") return;
 
-      const logs = await LogService.getLogs(email, date);
-      setLogs(logs);
+      LogService.getLogs(email, date)
+        .then(setLogs)
+        .catch((err) => {
+          console.error(err);
+          alert("로그 정보를 가져오지 못했습니다.\n" + err?.message);
+        });
     },
     [userInfo]
   );
 
   useEffect(() => {
     if (userInfo !== null) refreshLogs(DateUtils.getTodayDate());
-    else AuthService.signin("", null).then(setUserInfo);
+    else
+      AuthService.signin("", null)
+        .then(setUserInfo)
+        .catch((err) => {
+          alert("로그인에 실패했습니다.");
+          console.error(err);
+        });
   }, [userInfo, refreshLogs]);
 
   return (
@@ -39,8 +49,9 @@ function App() {
         <Menu />
         <RowFactory logs={logs} refreshLogs={refreshLogs} />
       </div>
-      {userInfo !== null ? undefined : <AuthModal setUserInfo={setUserInfo} />}
-      {userInfo === null ? undefined : (
+      {userInfo === null ? (
+        <AuthModal setUserInfo={setUserInfo} />
+      ) : (
         <NewLogInput refreshLogs={refreshLogs} />
       )}
     </AuthContext.Provider>

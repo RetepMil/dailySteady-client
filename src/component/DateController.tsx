@@ -14,7 +14,7 @@ export default function DateController({
 }: DateControllerProps) {
   const buttonTextStyle = {
     display: "inline-flex",
-    "align-items": "center",
+    aligntems: "center",
   };
 
   const moveToPreviousDay = () => {
@@ -46,7 +46,9 @@ export default function DateController({
           className={`cursor-pointer ${
             date === DateUtils.getTodayDate() ? "text-app-bg-color" : ""
           }`}
-          onClick={date !== DateUtils.getTodayDate() ? moveToNextDay : undefined}
+          onClick={
+            date !== DateUtils.getTodayDate() ? moveToNextDay : undefined
+          }
           style={buttonTextStyle}
         >
           {">"}
