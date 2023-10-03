@@ -21,4 +21,29 @@ export default class UtilService {
   static getTodayDate() {
     return this.StringifyDatetime(new Date());
   }
+
+  static getDateFromString(str: string) {
+    const [date, time] = str.split(" ");
+    // reformat string into YYYY-MM-DDTHH:mm:ss.sssZ
+    str = `${date}T${time}`;
+    return new Date(str);
+  }
+
+  static calculateDiff(nextDateString: string, prevDateString: string) {
+    const nextDate = this.getDateFromString(nextDateString).getTime();
+    const prevDate = this.getDateFromString(prevDateString).getTime();
+
+    let diff = Math.abs((nextDate - prevDate) / 1000);
+    const hours = Math.floor(diff / (60 * 60));
+    diff -= hours * 3600;
+    const minutes = Math.floor(diff / 60);
+    diff -= minutes * 60;
+    const seconds = Math.floor(diff);
+
+    return {
+      hours,
+      minutes,
+      seconds,
+    };
+  }
 }

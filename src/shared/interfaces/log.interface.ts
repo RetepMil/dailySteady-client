@@ -1,6 +1,6 @@
 export default interface Log {
   recordId: string;
-  userId: string;
+  memberEmail: string;
   createdAt: string;
   content: string;
 }

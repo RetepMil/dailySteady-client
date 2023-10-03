@@ -12,24 +12,31 @@ type RowFactoryProps = {
 
 function RowFactory({ logs, refreshLogs }: RowFactoryProps) {
   const [date, setDate] = useState(DateUtils.getTodayDate());
+
+  const generateRows = (logs: Log[] | undefined) => {
+    let index = 0;
+    return logs?.map((log: Log) => {
+      const { createdAt, memberEmail, content, recordId } = log;
+      return (
+        <Row
+          key={recordId}
+          memberEmail={memberEmail}
+          recordId={recordId}
+          content={content}
+          createdAt={createdAt}
+          nextLogAt={
+            index < logs.length - 1 ? logs[++index].createdAt : undefined
+          }
+        />
+      );
+    });
+  };
+
   return (
     <>
       <DateController date={date} setDate={setDate} refreshLogs={refreshLogs} />
       <div className="logFactoryDiv">
-        {logs?.length !== 0
-          ? logs?.map((log: Log) => {
-              const { createdAt, userId, content, recordId } = log;
-              return (
-                <Row
-                  key={recordId}
-                  recordId={recordId}
-                  userId={userId}
-                  createdAt={createdAt}
-                  content={content}
-                />
-              );
-            })
-          : undefined}
+        {logs ? generateRows(logs) : undefined}
         <div className="h-20 w-full bg-color-white"></div>
       </div>
     </>
