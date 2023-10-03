@@ -1,27 +1,6 @@
-# React + TypeScript + Vite
+# Daily Steady
+## 미니멀 타임로그 앱
+우리는 일을 하거나 학습을 할 때 매 순간을 집중을 못하는 경우가 많습니다. 앉아있던 시간은 두 시간이었지만, 막상 실제로 생산성을 내던 시간은 30분이 채 안되는 경우가 많습니다. 또는, 일을 세 시간 동안 꾸준히 했다고 생각했지만 쉬는 시간 혹은 음식을 먹는 시간이 우리의 생각보다 더 오래 걸려서 일을 거의 못하는 경우도 있습니다. 이런 상황을 방지하기 위해 매 순간 본인이 무슨 일을 하고 있는지 기록해보는 것이 어떨까요?
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
-
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-   parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-   },
-```
-
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+## Preview
+![image](https://github.com/RetepMil/dailySteady-client/assets/24950961/ac646a73-e2e8-4fc4-8051-a91478d7b8d4)
