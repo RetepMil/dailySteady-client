@@ -28,24 +28,32 @@ function AuthModal({ setUserInfo }: AuthModalProps) {
 
   const onSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    try {
-      if (showSignUp) {
-        await AuthService.signup(emailVal, passwordVal, usernameVal);
-        initInput();
-        toggleSignUpMode();
-        alert("회원가입 성공!");
-      } else {
-        const { email, name } = await AuthService.signin(emailVal, passwordVal);
-        setUserInfo({
-          email,
-          name,
+    if (showSignUp) {
+      AuthService.signup(emailVal, passwordVal, usernameVal)
+        .then(() => {
+          initInput();
+          toggleSignUpMode();
+          alert("회원가입 성공!");
+        })
+        .catch((err) => {
+          console.error(err);
+          alert("회원가입을 실패했습니다.\n" + err?.message);
         });
-        localStorage.setItem("userInfo", JSON.stringify(userInfo));
-        initInput();
-        setVisible(false);
-      }
-    } catch (err) {
-      console.error(err);
+    } else {
+      AuthService.signin(emailVal, passwordVal)
+        .then(({ email, name }) => {
+          setUserInfo({
+            email,
+            name,
+          });
+          localStorage.setItem("userInfo", JSON.stringify(userInfo));
+          initInput();
+          setVisible(false);
+        })
+        .catch((err) => {
+          console.error(err);
+          alert("로그인에 실패했습니다.\n" + err?.message);
+        });
     }
   };
 

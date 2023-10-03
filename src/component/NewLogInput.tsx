@@ -19,14 +19,21 @@ function NewLogInput({ refreshLogs }: NewLogInputProps) {
 
   async function onSubmit(e: FormEvent) {
     e.preventDefault();
-    if (userInfo === undefined || userInfo === null) return;
+
+    if (userInfo === null) return;
 
     const { email } = userInfo;
     if (email === null || email === "") return;
 
-    await LogService.saveLog(email, content);
-    refreshLogs(UtilService.getTodayDate());
-    setContent("");
+    LogService.saveLog(email, content)
+      .then(() => {
+        refreshLogs(UtilService.getTodayDate());
+        setContent("");
+      })
+      .catch((err) => {
+        console.error(err);
+        alert("로그 추가에 실패했습니다.\n" + err?.message);
+      });
   }
 
   return (
