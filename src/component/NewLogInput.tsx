@@ -2,12 +2,17 @@ import { ChangeEvent, FormEvent, useContext, useState } from "react";
 import { AuthContext } from "../App";
 import LogService from "../service/LogService";
 import UtilService from "../service/DateUtils";
+import Log from "../shared/interfaces/log.interface";
+import DateUtils from "../service/DateUtils";
+import { assert, log } from "console";
 
 type NewLogInputProps = {
+  logs: Log[] | null;
+  setLogs: React.Dispatch<React.SetStateAction<Log[] | null>>;
   refreshLogs: (date: string) => void;
 };
 
-function NewLogInput({ refreshLogs }: NewLogInputProps) {
+function NewLogInput({ logs, setLogs, refreshLogs }: NewLogInputProps) {
   const [content, setContent] = useState<string>("");
   const userInfo = useContext(AuthContext);
 
@@ -24,6 +29,15 @@ function NewLogInput({ refreshLogs }: NewLogInputProps) {
 
     const { email } = userInfo;
     if (email === null || email === "") return;
+
+    const temporaryLog = {
+      recordId: "temporaryId",
+      memberEmail: email,
+      createdAt: DateUtils.getTodayDate(),
+      content,
+    };
+
+    setLogs(logs === null ? [temporaryLog] : [...logs, temporaryLog]);
 
     LogService.saveLog(email, content)
       .then(() => {

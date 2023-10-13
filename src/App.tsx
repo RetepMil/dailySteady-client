@@ -12,7 +12,7 @@ import DateUtils from "./service/DateUtils";
 export const AuthContext = createContext<UserInfo | null>(null);
 
 function App() {
-  const [logs, setLogs] = useState<Array<Log>>();
+  const [logs, setLogs] = useState<Array<Log> | null>(null);
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
 
   const refreshLogs = useCallback(
@@ -52,7 +52,7 @@ function App() {
       {userInfo === null ? (
         <AuthModal setUserInfo={setUserInfo} />
       ) : (
-        <NewLogInput refreshLogs={refreshLogs} />
+        <NewLogInput logs={logs} setLogs={setLogs} refreshLogs={refreshLogs} />
       )}
     </AuthContext.Provider>
   );

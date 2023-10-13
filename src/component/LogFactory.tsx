@@ -6,7 +6,7 @@ import "./LogFactory.css";
 import DateUtils from "../service/DateUtils";
 
 type RowFactoryProps = {
-  logs: Array<Log> | undefined;
+  logs: Array<Log> | null;
   refreshLogs: (date: string) => void;
 };
 
