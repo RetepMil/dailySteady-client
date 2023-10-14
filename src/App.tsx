@@ -38,7 +38,7 @@ function App() {
       AuthService.signin("", null)
         .then(setUserInfo)
         .catch((err) => {
-          alert("로그인에 실패했습니다.");
+          alert("자동 로그인에 실패했습니다.\n다시 로그인해주세요.");
           console.error(err);
         });
   }, [userInfo, refreshLogs]);

@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "NODE_ENV=LOCAL vite",
+    "local": "NODE_ENV=LOCAL vite",
     "build-local": "tsc && NODE_ENV=LOCAL vite build",
     "build": "tsc && NODE_ENV=DEV vite build",
     "prod": "tsc && NODE_ENV=PROD vite build",

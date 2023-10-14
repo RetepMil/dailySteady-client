@@ -4,7 +4,6 @@ import LogService from "../service/LogService";
 import UtilService from "../service/DateUtils";
 import Log from "../shared/interfaces/log.interface";
 import DateUtils from "../service/DateUtils";
-import { assert, log } from "console";
 
 type NewLogInputProps = {
   logs: Log[] | null;

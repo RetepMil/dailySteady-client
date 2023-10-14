@@ -23,9 +23,9 @@ export default class AuthService {
       password,
     });
 
-    const response = await axiosInstance.post(`/signin`, body);
-    if (!response) {
-      throw new Error("알 수 없는 에러가 발생했습니다")
+    let response = await axiosInstance.post(`/signin`, body);
+    if (response.status === HttpStatusCode.BadRequest) {
+      response = await axiosInstance.patch(`/token`);
     }
 
     const { data: { code, message } } = response;
