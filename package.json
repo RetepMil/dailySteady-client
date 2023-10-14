@@ -8,6 +8,7 @@
     "build-local": "tsc && NODE_ENV=LOCAL vite build",
     "build": "tsc && NODE_ENV=DEV vite build",
     "prod": "tsc && NODE_ENV=PROD vite build",
+    "start": "NODE_ENV=DEV vite",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
