@@ -26,7 +26,7 @@ function AuthModal({ setUserInfo }: AuthModalProps) {
     setUsernameVal("");
   };
 
-  const onSubmit = async (event: React.FormEvent) => {
+  const onSubmit = (event: React.FormEvent) => {
     event.preventDefault();
     if (showSignUp) {
       AuthService.signup(emailVal, passwordVal, usernameVal)
