@@ -14,8 +14,7 @@ function RowFactory({ logs, refreshLogs }: RowFactoryProps) {
   const [date, setDate] = useState(DateUtils.getTodayDate());
 
   const generateRows = (logs: Log[] | undefined) => {
-    let index = 0;
-    return logs?.map((log: Log) => {
+    return logs?.map((log: Log, index: number) => {
       const { createdAt, memberEmail, content, recordId } = log;
       return (
         <Row
@@ -25,7 +24,7 @@ function RowFactory({ logs, refreshLogs }: RowFactoryProps) {
           content={content}
           createdAt={createdAt}
           nextLogAt={
-            index < logs.length - 1 ? logs[++index].createdAt : undefined
+            index < logs.length - 1 ? logs[index+1].createdAt : undefined
           }
         />
       );
