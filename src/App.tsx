@@ -8,12 +8,16 @@ import Log from "./shared/interfaces/log.interface";
 import LogService from "./service/LogService";
 import AuthService from "./service/AuthService";
 import DateUtils from "./service/DateUtils";
+import TodoTab from "./component/TodoTab";
 
 export const AuthContext = createContext<UserInfo | null>(null);
 
 function App() {
   const [logs, setLogs] = useState<Array<Log> | null>(null);
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
+  const [tabOn, setTabOn] = useState<boolean>(false);
+
+  const toggleTodoTab = () => setTabOn(!tabOn);
 
   const refreshLogs = useCallback(
     async (date: string) => {
@@ -37,17 +41,23 @@ function App() {
     else AuthService.signin("", null).then(setUserInfo).catch(console.error);
   }, [userInfo, refreshLogs]);
 
+  // prettier-ignore
   return (
     <AuthContext.Provider value={userInfo}>
-      <div className="bg-app-bg-color flex flex-col">
-        <Menu />
-        <RowFactory logs={logs} refreshLogs={refreshLogs} />
+      <div className="flex flex-row">
+        <TodoTab tabOn={tabOn} />
+        <div className="bg-app-bg-color w-full">
+          <div className="flex flex-col">
+            <Menu toggleTodoTab={toggleTodoTab} />
+            <RowFactory logs={logs} refreshLogs={refreshLogs} />
+          </div>
+          {
+            userInfo === null 
+              ? (<AuthModal setUserInfo={setUserInfo} />)
+              : (<NewLogInput logs={logs} setLogs={setLogs} refreshLogs={refreshLogs}/>)
+          }
+        </div>
       </div>
-      {userInfo === null ? (
-        <AuthModal setUserInfo={setUserInfo} />
-      ) : (
-        <NewLogInput logs={logs} setLogs={setLogs} refreshLogs={refreshLogs} />
-      )}
     </AuthContext.Provider>
   );
 }

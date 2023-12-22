@@ -1,10 +1,12 @@
 import { ReactComponent as MenuIcon } from "../static/icon/MenuIcon.svg";
 import { ReactComponent as UserIcon } from "../static/icon/UserIcon.svg";
 
-function Menu() {
+type MenuProps = { toggleTodoTab: () => void };
+
+function Menu({ toggleTodoTab }: MenuProps) {
   return (
     <div className="flex justify-between p-4">
-      <MenuIcon className="w-8 h-8" />
+      <MenuIcon className="w-8 h-8 cursor-pointer" onClick={toggleTodoTab} />
       <span className="text-menu-theme-color text-xl subpixel-antialiased">
         <strong>Daily, Steady</strong>
       </span>
