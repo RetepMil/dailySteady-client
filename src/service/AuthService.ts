@@ -32,9 +32,10 @@ export default class AuthService {
     if (code != HttpStatusCode.Ok) throw new Error(message);
 
     const { data: { data: { email, name, tokenInfo } } } = response;
-    const { grantType, accessToken,  } = tokenInfo;
-
-    axiosInstance.defaults.headers.common["Authorization"] = `${grantType} ${accessToken}`;
+    if (tokenInfo != null) {
+      const { grantType, accessToken } = tokenInfo;
+      axiosInstance.defaults.headers.common["Authorization"] = `${grantType} ${accessToken}`;
+    }
     
     const userInfo: UserLoginResponse = { email, name };
     return userInfo;
